@@ -1,0 +1,7 @@
+# Rime user dictionary
+#@/db_name	easy_en.userdb
+#@/db_type	userdb
+#@/rime_version	1.5.3
+#@/tick	3
+#@/user_id	lab_macos
+language 	language	c=1 d=1 t=3
