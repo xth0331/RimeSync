@@ -2,6 +2,7 @@
 #@/db_name	easy_en.userdb
 #@/db_type	userdb
 #@/rime_version	1.5.3
-#@/tick	3
+#@/tick	4
 #@/user_id	lab_macos
-language 	language	c=1 d=1 t=3
+language 	language	c=1 d=1 t=4
+you 	you	c=1 d=1 t=4
