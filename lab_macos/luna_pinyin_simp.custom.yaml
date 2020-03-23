@@ -4,9 +4,18 @@
 #
 # 作者：瑾昀 <cokunhui@gmail.com>
 #
+# 部署位置：
+# ~/.config/ibus/rime  (Linux)
+# ~/Library/Rime  (Mac OS)
+# %APPDATA%\Rime  (Windows)
+#
+# 於重新部署後生效
+#
+#
 # 注意：本補靪適用於所有朙月拼音系列方案（「朙月拼音」、「朙月拼音·简化字」、「朙月拼音·臺灣正體」、「朙月拼音·語句流」）。
 # 只須將本 custom.yaml 的前面名字改爲對應的輸入方案名字然後放入用戶文件夾重新部署即可。如 luna_pinyin_simp.custom.yaml。
 # 雙拼用戶請使用 double_pinyin.custom.yaml。
+#
 #
 # 附朙月拼音系列方案與其對應的 id 一覽表：
 # 輸入方案	id
@@ -14,88 +23,103 @@
 # 朙月拼音·简化字	luna_pinyin_simp
 # 朙月拼音·臺灣正體	luna_pinyin_tw
 # 朙月拼音·語句流	luna_pinyin_fluency
+#
 
 patch:
+
   switches:
     - name: ascii_mode
       reset: 0
       states: ["中文", "西文"]
     - name: full_shape
       states: ["半角", "全角"]
-    - name: zh_simp                      # (※1) 繁简转换
-      reset: 1
+    - name: extended_charset
+      states: ["通用", "增廣"]
+    - name: zh_simp
+      reset: 1 # 强制简体输入
       states: ["漢字", "汉字"]
+    - name: ascii_punct
+      states: ["。，", "．，"]
 
-    - options: ["utf8", "gbk", "gb2312"] # (※2)字符集选单
-      reset: 0                           #     默认 UTF8
-      states:
-        - UTF-8
-        - GBK
-        - GB2312
-    - name: show_emoji
-      reset: 1
-      states: [ "🈚️️\uFE0E", "🈶️️\uFE0F" ]
-
-
-  engine/filters:
+  simplifier:
+    option_name: zh_simp
+    
+  engine:
+    processors:
+      - ascii_composer
+      - recognizer
+      - key_binder
+      - speller
+      - punctuator
+      - selector
+      - navigator
+      - express_editor
+    segmentors:
+      - ascii_segmentor
+      - matcher
+      - abc_segmentor
+      - punct_segmentor
+      - fallback_segmentor
+    translators:
+      - punct_translator
+      - table_translator@custom_phrase
+      - reverse_lookup_translator
+      - script_translator
+    filters:
       - simplifier
-      - simplifier@emoji_conversion
       - uniquifier
-      - charset_filter@gbk              # (※3) GBK 过滤
-      - single_char_filter
+      - cjk_minifier  #過濾拼音輸入法中的罕用字
+#  这个会与模糊音的开启发生冲突
+#  translator:
+#    enable_charset_filter: true #启用罕见字過濾
 
-  emoji_conversion:
-    opencc_config: emoji.json
-    option_name: show_emoji
-    tags: abc
-
-  "speller/algebra/@before 0": xform/^([b-df-hj-np-tv-z])$/$1_/
-
-# 加載 easy_en 依賴
-  "schema/dependencies/@1": easy_en
-# 載入翻譯英文的碼表翻譯器，取名爲 english
-  "engine/translators/@4": table_translator@english
-# english 翻譯器的設定項
+ # 加載 easy_en 依賴
+  "schema/dependencies/@next": easy_en
+  # 載入翻譯英文的碼表翻譯器，取名爲 english
+  "engine/translators/@next": table_translator@english
+  # english 翻譯器的設定項
   english:
     dictionary: easy_en
     spelling_hints: 9
-    enable_completion: false     # 是否启用英文输入联想补全
+    enable_completion: false
     enable_sentence: false
-    initial_quality: -2           # 调整英文候选词的位置，如 -3 会更靠后
-
-#  載入朙月拼音擴充詞庫
+    initial_quality: -3
+      
+ # 載入朙月拼音擴充詞庫
   "translator/dictionary": luna_pinyin.extended
-#  拼写纠错
-  "translator/enable_correction": true
+  # 改寫拼寫運算，使得含西文的詞彙（位於 luna_pinyin.cn_en.dict.yaml 中）不影響簡拼功能（注意，此功能只適用於朙月拼音系列方案，不適用於各類雙拼方案）
+  # 本條補靪只在「小狼毫 0.9.30」、「鼠鬚管 0.9.25 」、「Rime-1.2」及更高的版本中起作用。
+  "speller/algebra/@before 0": xform/^([b-df-hj-np-tv-z])$/$1_/
+
 
 #  符号快速输入和部分符号的快速上屏
-  punctuator:
-    import_preset: symbols
-    symbols:
-      "/fs": [½, ‰, ¼, ⅓, ⅔, ¾, ⅒ ]
-      "/bq": [😂️, 😅️, ☺️, 😱️, 😭️, 😇️, 🙃️, 🤔️, 💊️, 💯️, 👍️, 🙈️, 💩️, 😈️ ]
-      "/dn": [⌘, ⌥, ⇧, ⌃, ⎋, ⇪, , ⌫, ⌦, ↩︎, ⏎, ↑, ↓, ←, →, ↖, ↘, ⇟, ⇞]
-      "/fh": [ ©, ®, ℗, ⓘ, ℠, ™, ℡, ␡, ♂, ♀, ☉, ☊, ☋, ☌, ☍, ☐, ☑︎, ☒, ☜, ☝, ☞, ☟, ✎, ✄, ♻, ⚐, ⚑, ⚠]
-      "/xh": [ ＊, ×, ✱, ★, ☆, ✩, ✧, ❋, ❊, ❉, ❈, ❅, ✿, ✲]
-    half_shape:
-      "#": "#"
-      "*": "*"
-      "`": "`"
-      "~": "~"
-      "@": "@"
-      "=": "="
-      "/": ["/", "÷",]
-      '\': "、"
-      "_" : "──"
-      "'": {pair: ["「", "」"]}
-      "[": ["【", "["]
-      "]": ["】", "]"]
-      "$": ["¥", "$", "€", "£", "¢", "¤"]
-      "<": ["《", "〈", "«", "<"]
-      ">": ["》", "〉", "»", ">"]
-  recognizer/patterns/punct: "^/([a-z]+|[0-9]0?)$"
+#  punctuator:
+#    import_preset: symbols
+#    half_shape:
+#      "#": "#"
+#      "`": "`"
+#      "~": "~"
+#      "@": "@"
+#      "=": "="
+#      "!": "!"
+#      "/": ["/", "÷"]
+#      '\': "、"
+#      "'": {pair: ["「", "」"]}
+#      "[": ["【", "["]
+#      "]": ["】", "]"]
+#      "$": ["¥", "$", "€", "£", "¢", "¤"]
+#      "<": ["《", "〈", "«", "<"]
+#      ">": ["》", "〉", "»", ">"]
 
-# 模糊拼音
+  recognizer:
+    patterns:
+      email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"
+      uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
+      url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
+      punct: "^/([a-z]+|[0-9]0?)$"
+      
+     
+ # 模糊拼音
   'speller/algebra':
     - erase/^xx$/                      # 第一行保留
 
@@ -126,8 +150,8 @@ patch:
 
     # 韻母部份
     #- derive/^([bpmf])eng$/$1ong/      # meng = mong, ...
-    - derive/([ei])n$/$1ng/            # en => eng, in => ing
-    - derive/([ei])ng$/$1n/            # eng => en, ing => in
+    #- derive/([ei])n$/$1ng/            # en => eng, in => ing
+    #- derive/([ei])ng$/$1n/            # eng => en, ing => in
 
     # 樣例足夠了，其他請自己總結……
 
@@ -147,10 +171,9 @@ patch:
     - derive/([dtngkhrzcs])o(u|ng)$/$1o/  # zho => zhong|zhou
     - derive/ong$/on/                  # zhonguo => zhong guo
     - derive/ao$/oa/                   # hoa => hao
-    - derive/ua$/au/                   # shau => shua
     - derive/([iu])a(o|ng?)$/a$1$2/    # tain => tian
 
-    # 分尖團後 v => ü 的改寫條件也要相應地擴充：
-    #'translator/preedit_format':
-   #  - "xform/([nljqxyzcs])v/$1ü/"
+  # 分尖團後 v => ü 的改寫條件也要相應地擴充：
+  #'translator/preedit_format':
+  #  - "xform/([nljqxyzcs])v/$1ü/"
 
