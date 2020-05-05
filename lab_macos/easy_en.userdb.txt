@@ -2,7 +2,12 @@
 #@/db_name	easy_en.userdb
 #@/db_type	userdb
 #@/rime_version	1.5.3
-#@/tick	4
+#@/tick	10
 #@/user_id	lab_macos
-language 	language	c=1 d=1 t=4
-you 	you	c=1 d=1 t=4
+disk 	disk	c=1 d=0.99005 t=10
+for 	for	c=1 d=1 t=10
+is 	is	c=1 d=1 t=8
+language 	language	c=1 d=1 t=10
+mail 	mail	c=2 d=1.9802 t=10
+show 	show	c=1 d=1 t=9
+you 	you	c=1 d=1 t=10
