@@ -2,12 +2,31 @@
 #@/db_name	easy_en.userdb
 #@/db_type	userdb
 #@/rime_version	1.5.3
-#@/tick	11
+#@/tick	69
 #@/user_id	lab_macos
-disk 	disk	c=1 d=0.99005 t=11
-for 	for	c=1 d=1 t=11
-is 	is	c=1 d=0.99005 t=11
-language 	language	c=1 d=1 t=11
-mail 	mail	c=3 d=2.97032 t=11
-show 	show	c=1 d=0.995012 t=11
-you 	you	c=1 d=1 t=11
+access 	access	c=1 d=0.891366 t=69
+an 	an	c=1 d=0.913931 t=69
+can 	can	c=1 d=0.904837 t=69
+change 	change	c=1 d=0.932394 t=69
+create 	create	c=1 d=0.918512 t=69
+disk 	disk	c=1 d=0.99005 t=69
+edit 	edit	c=1 d=0.873716 t=69
+example 	example	c=1 d=0.995012 t=69
+for 	for	c=1 d=1 t=69
+how 	how	c=1 d=0.955997 t=69
+is 	is	c=1 d=0.99005 t=69
+language 	language	c=1 d=1 t=69
+mail 	mail	c=43 d=37.1844 t=69
+name 	name	c=1 d=0.873716 t=69
+not 	not	c=1 d=0.927743 t=69
+page 	page	c=1 d=0.951229 t=69
+plus 	plus	c=1 d=0.918512 t=69
+send 	send	c=1 d=0.882497 t=69
+show 	show	c=1 d=0.995012 t=69
+soft 	soft	c=1 d=0.970446 t=69
+source 	source	c=1 d=0.985112 t=69
+tech 	tech	c=2 d=1.87883 t=69
+user 	user	c=1 d=0.97531 t=69
+web 	web	c=1 d=0.960789 t=69
+with 	with	c=1 d=0.946485 t=69
+you 	you	c=1 d=1 t=69

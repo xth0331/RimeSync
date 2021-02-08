@@ -1,7 +1,8 @@
 distribution_code_name: Squirrel
 distribution_name: "鼠鬚管"
-distribution_version: 0.14.0
+distribution_version: 0.15.0
 install_time: "Sat Mar 21 00:02:50 2020"
-rime_version: 1.5.3
-sync_dir: '/Users/xieth/RimeSync'
-installation_id: 'lab_macos'
+installation_id: lab_macos
+rime_version: 1.7.1
+sync_dir: "/Users/xieth/RimeSync"
+update_time: "Mon Feb  8 15:12:12 2021"

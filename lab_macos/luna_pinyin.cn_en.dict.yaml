@@ -17,7 +17,7 @@
 name: luna_pinyin.cn_en
 version: "2016.6.19"
 sort: by_weight
-use_preset_vocabulary: false
+use_preset_vocabulary: true
 ...
 
 
@@ -427,3 +427,9 @@ ZEALER	zealer	100
 γ 刀	ga ma dao	100
 γ 射線	ga ma she xian	100
 	apple	100
+git	git	100
+Kubernetes	kubernetes	100
+kubectl	kubectl	100
+vim	vim	100
+smzdm.com	smzdm	100
+github.com	github	100
